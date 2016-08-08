@@ -1,0 +1,45 @@
+<html>
+<style type="text/css">
+   pre { font-weight:bold; font-size:20px;}
+	body {font-family:"Times New Roman";font-size:20px;}
+	form {width:550px; padding:10px;margin:0px;border:5px solid black;}
+	p {text-align:center;width:550px;padding:10px;margin:0px;}
+</style>
+
+<script type="text/javascript">
+ function showUser
+ {
+if (window.XMLHttpRequest)
+   {// code for IE7+, Firefox, Chrome, Opera, Safari
+   xmlhttp=new XMLHttpRequest();
+   }
+ else
+   {// code for IE6, IE5
+   xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+   }
+ xmlhttp.onreadystatechange=function()
+   {
+   if (xmlhttp.readyState==4 && xmlhttp.status==200)
+     {
+     document.getElementById("txtHint").innerHTML=xmlhttp.responseText;
+     }
+   }
+ xmlhttp.open("GET",true);
+ xmlhttp.send();
+ }
+ 
+ </script>
+<body>
+
+	<br><p>Plese fill the following form and click submit.</p><br>
+	<form action="register.php" method="post" onsubmit="showUser">
+		<pre>	User Name:  <input type="text" name="usname"> <br></pre>
+		<pre>	Password:   <input type="text" name="paword"><br></pre>
+		<pre>	Phone:      <input type="text" name="phone"><br></pre>
+		<pre>		 <input type="Submit"></pre>
+	</form>
+	
+	<!--<div id="txtHint"><b>Person info will be listed here.</b></div>-->
+</body>
+</html>
+

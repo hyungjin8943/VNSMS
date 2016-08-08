@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Vietnam Heatmap</title>
+    <link href="/maps/documentation/javascript/examples/default.css" rel="stylesheet">
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=visualization"></script>
+	<?php
+	  $db = mysql_connect("localhost", "root", "jackysean959");
+	  mysql_query($db, "use points");
+	  $result = mysql_query($db, "select * from points");
+	?>
+    <script>
+      var map, pointarray, heatmap;
+
+      var taxiData = [
+        new google.maps.LatLng(16.466667, 107.579167),
+        new google.maps.LatLng(21.033333, 105.85),
+        new google.maps.LatLng(20.85, 106.683333),
+		new google.maps.LatLng(21.847778, 106.757778),
+		new google.maps.LatLng(21.5, 105.75),
+		new google.maps.LatLng(21.1, 106.8),
+		new google.maps.LatLng(21.3, 106.2),
+		new google.maps.LatLng(21, 107.5)
+      ];
+
+	  var taxiData2 = [
+        new google.maps.LatLng(16.466667, 107.579167),
+        new google.maps.LatLng(21.033333, 105.85),
+        new google.maps.LatLng(20.85, 106.683333)
+	  ];
+	  
+      function initialize() {
+        var mapOptions = {
+          zoom: 6,
+          center: new google.maps.LatLng(16.466667, 107.579167),
+          mapTypeId: google.maps.MapTypeId.SATELLITE
+        };
+
+        map = new google.maps.Map(document.getElementById('map_canvas'),
+            mapOptions);
+
+        pointArray = new google.maps.MVCArray(taxiData);
+
+        heatmap = new google.maps.visualization.HeatmapLayer({
+          data: pointArray
+        });
+
+        heatmap.setMap(map);
+      }
+
+      function toggleHeatmap() {
+        heatmap.setMap(heatmap.getMap() ? null : map);
+      }
+
+      function changeGradient() {
+        var gradient = [
+          'rgba(0, 255, 255, 0)',
+          'rgba(0, 255, 255, 1)',
+          'rgba(0, 191, 255, 1)',
+          'rgba(0, 127, 255, 1)',
+          'rgba(0, 63, 255, 1)',
+          'rgba(0, 0, 255, 1)',
+          'rgba(0, 0, 223, 1)',
+          'rgba(0, 0, 191, 1)',
+          'rgba(0, 0, 159, 1)',
+          'rgba(0, 0, 127, 1)',
+          'rgba(63, 0, 91, 1)',
+          'rgba(127, 0, 63, 1)',
+          'rgba(191, 0, 31, 1)',
+          'rgba(255, 0, 0, 1)'
+        ]
+        heatmap.setOptions({
+          gradient: heatmap.get('gradient') ? null : gradient
+        });
+      }
+
+      function changeRadius() {
+        heatmap.setOptions({radius: heatmap.get('radius') ? null : 20});
+      }
+
+      function changeOpacity() {
+        heatmap.setOptions({opacity: heatmap.get('opacity') ? null : 0.2});
+      }
+	  
+	  function switchPoints() {
+	    heatmap.setData(taxiData2);
+	  }
+    </script>
+  </head>
+
+  <body onload="initialize()">
+    <div id="map_canvas" style="height: 600px; width: 800px;"></div>
+    <button onclick="toggleHeatmap()">Toggle Heatmap</button>
+    <button onclick="changeGradient()">Change Gradient</button>
+    <button onclick="changeRadius()">Change Radius</button>
+    <button onclick="changeOpacity()">Change Opacity</button>
+	<button onclick="switchPoints()">Switch Points</button>
+  </body>
+</html>
